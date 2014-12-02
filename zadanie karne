@@ -1,0 +1,104 @@
+#include <iostream>
+ 
+using namespace std;
+ 
+class Point
+{
+private: 
+	double x,y;
+ 
+public:
+	Point(double _x, double _y)
+	{
+		this->x = _x;
+		this->y = _y;
+	}
+	Point(){
+		this->x = 0;
+        this->y = 0;
+	}
+	Point(const Point &_p)
+    {
+        this->x = _p.x;
+        this->y = _p.y;
+    }
+ 
+	void setX(const double _x){
+		this->x = _x;
+	}
+	void setY(const double _y){
+		this->y = _y;
+	}
+	const double getX(){
+		return this->x;
+	}
+	const double getY(){
+		return this->y;
+	}
+};
+class Figure: public Point
+{
+	private: 
+		Point a;
+		Point b; 
+ 
+	public:
+		Figure(Point _a, Point _b)
+		{
+			this->a=_a;
+			this->b=_b;
+		}
+		Figure(Point _a)
+		{
+			this->a=_a;
+			this->b.setX(0);
+			this->b.setY(0);
+		}
+		void seta(Point _a){
+			this->a = _a;
+		}
+		void setb(Point _b){
+			this->b = _b;
+		}
+		Point geta(){
+			return this->a;
+		}
+		Point getb(){
+			return this->b;
+		}
+};
+ 
+class circle: public Figure
+{
+private:
+	double r; // r = radius
+public:
+	circle(Point _a, double _r):Figure(_a)
+	{
+		this->r=_r;
+	}
+
+
+};
+class tetragon: public Figure // czworokąt dziedziczy po figurze,
+{
+private:
+	Point c,d;
+public:
+	tetragon(Point _a, Point _b, Point _c, Point _d):Figure(_a,_b)
+	{
+		this->c=_c;
+		this->d=_d;
+	}
+};
+ 
+class rectangle: public tetragon
+{
+public:
+	rectangle(Point _a, Point _b, Point _c, Point _d):tetragon(_a,_b,_c,_d){}
+ 
+};
+int main()
+{
+return 0;
+}
