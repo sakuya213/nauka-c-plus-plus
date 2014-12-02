@@ -3,79 +3,87 @@
 
 using namespace std;
 
-class square;
+class square    
 {
 private:
 	double s_side; // s_side - short side
 public:
 	square(double _newS){
-		this.s_side = _newS;
+		this->s_side = _newS;
 	}
 	void setS_side(double _newS){ // tak sie ustawia wartosc
-		this.s_side = _newS;
+		this->s_side = _newS;
 	}
 	double getS_side(){ 
-		return this.s_side;
+		return this->s_side;
 	}
-
-class rectangle: class square // dziedziczenie po klasie square
+};
+class rectangle: public square // dziedziczenie po klasie square
 {
 private:
 	double l_side; // l_side = long side
 public:
-	rectangle(double _newS,double _newL):square(_news){ 
-		this.l_side= _newL;
+	rectangle(double _newS,double _newL):square(_newS){ 
+		this->l_side= _newL;
 	}
-}
+};
 
-class pentagon: class rectangle // dziedziczenie po klasie rectangle + square
+class pentagon: public rectangle // dziedziczenie po klasie rectangle + square
 {
 private:
-	float la_side; // la = last
+	double la_side; // la = last
 public:
-	pentagon(double _newS,double _newL,float _newLa):rectangle(_newL){ 
-		this.la_side= _newLa;
+	pentagon(double _newS,double _newL,double _newLa):rectangle(_newL,_newS){ 
+		this->la_side= _newLa;
 	}
-}
-class hexagon: class rectangle // dziedziczenie po klasie square, jest to szesciokąt foremny
+};
+class hexagon: public rectangle // dziedziczenie po klasie square, jest to szesciokąt foremny
 {
 private:
 	double r_side; // r_side ostatnie dwa boki
 public:
-	hexagon(double _newS,double _newL,double _newR):rectangle(_news){ 
-		this.r_side= _newR;
+	hexagon(double _newS,double _newL,double _newR):rectangle(_newS,_newL){ 
+		this->r_side= _newR;
 	}
-}
-
-class diamond: class square // dziedziczenie po klasie square, jest to romb
+};
+class diamond: public square // dziedziczenie po klasie square, jest to romb
 {
 public:
-	diamond(double _newS):square(_news);
-}
+	diamond(double _newS):square(_newS){} 
+};
 
-class trapeze;
+class trapeze: public square
 {
 private:
 	double d_side; // d_side = down side
 	double u_side; // u_side = up side
 public:
-	trapeze(double _newS,double _newD,double _newU):square(_news){
-		this.d_side=_newD;
-		this.u_side=_newU;
+	trapeze(double _newS,double _newD,double _newU):square(_newS){
+		this->d_side=_newD;
+		this->u_side=_newU;
 	}
-}
+};
 
-class circle;
+class triangle: public square
 {
-	private:
+public:
+	triangle(double _newS):square(_newS){}
+};
+
+
+class circle
+{
+private:
 		double r; // r = radius
+public:
 	circle(double radius){
-		this.r = radius;
+		this->r = radius;
 	}
 	void setr(double radius){
-		this.r = radius;
+		this->r = radius;
 	}
 	double getr(){ 
-		return this.r;
+		return this->r;
 	}
-}
+};
+int main(){}
