@@ -9,7 +9,11 @@ int main()
     cin >> a;
     b = 1;
 
-    while(b <= a) cout << b++ << " "; // wyswietla szereg liczby od 1 do podanego a
+/* 
+1. i dont understand POLISH
+2. dont use 1 line and few constructions
+*/
+    while(b <= a) cout << b++ << " "; // wyswietla szereg liczby od 1 do podanego a 
 
     cout << endl;
 	system("pause");
