@@ -39,7 +39,7 @@ public:
 	}
 };
 
-class Point_Spatial: public Point
+class Point_Spatial: public Point // class name should be CammelCase
 {
 private:
 	double z;
@@ -74,22 +74,22 @@ public:
 		this->r = _r;
 		this->a = _a;
 	}
-		void seta(Point _a){
+		void seta(Point _a){ //use camelCase ->should be setA in that case, and a is a Center setCenter
 			this->a = _a;
 		}
-		void setr(double _r){
+		void setr(double _r){//use camelCase ->should be setR
 			this->r = _r;
 		}
-		Point geta(){
+		Point geta(){ // as up
 			return this->a;
 		}
-		double getr(){
+		double getr(){// as up
 			return this->r;
 		}
 
 
 };
-class triangle: public Figure
+class triangle: public Figure // Class name starting from big letter
 {
 private:
 	Point a,b,c;
@@ -101,7 +101,7 @@ public:
 		this->c = _c;
 	}
 };
-class tetragon: public Figure // czworokąt dziedziczy po figurze,
+class tetragon: public Figure // czworokąt dziedziczy po figurze, // Class name starting from big letter
 {
 private: 
 		Point a;
@@ -117,33 +117,33 @@ private:
 			this->c = _c;
 			this->d = _d;
 		}
-		void seta(Point _a){
+		void seta(Point _a){//use camelCase
 			this->a = _a;
 		}
-		void setb(Point _b){
+		void setb(Point _b){//use camelCase
 			this->b = _b;
 		}
-		void setc(Point _c){
+		void setc(Point _c){//use camelCase
 			this->c = _c;
 		}
-		void setd(Point _d){
+		void setd(Point _d){//use camelCase
 			this->d = _d;
 		}
-		Point geta(){
+		Point geta(){//use camelCase
 			return this->a;
 		}
-		Point getb(){
+		Point getb(){//use camelCase
 			return this->b;
 		}
-		Point getc(){
+		Point getc(){//use camelCase
 			return this->c;
 		}
-		Point getd(){
+		Point getd(){//use camelCase
 			return this->d;
 		}
 };
  
-class rectangle: public tetragon
+class rectangle: public tetragon// Class name starting from big letter
 {
 public:
 	rectangle(Point _a, Point _b, Point _c, Point _d):tetragon(_a,_b,_c,_d){}
@@ -156,7 +156,7 @@ public:
 	square(Point _a, Point _b, Point _c, Point _d):rectangle(_a,_b,_c,_d){}
 };
 
-class pentagon: public rectangle
+class pentagon: public rectangle// Class name starting from big letter
 {
 private:
 	Point e;
@@ -166,12 +166,16 @@ public:
 	}
 };
 
-class Figure_Spatial
+// where is  regular hexagon ? it was in previous version
+// where is regular  heptagon/diamond ? it was in previous version
+// where is trapeze? it was in previous version
+
+class Figure_Spatial // this is too figure, we know we will do everything in 3 dimensions in the end //use CammelCase // Class name starting from big letter
 {
 	virtual void circumference(){}
 };
 
-class pyramid_triangular: public Figure_Spatial
+class pyramid_triangular: public Figure_Spatial // Class name starting from big letter nad cammelCase
 {
 private:
 	Point_Spatial points[3];
@@ -199,10 +203,10 @@ public:
  ( points[i].getY() -  points[3].getY() ) * ( points[i].getY() - points[3].getY() ) +
  ( points[i].getZ() -  points[3].getZ() ) * ( points[i].getZ() - points[3].getZ() ));
 }
-	std::cout << cir << std::endl;
+	std::cout << cir << std::endl; // big problem - we don not thow content from figure to stream !!! this function was to return, not to display !!!
 }
 };
-class pyramid_tetragonal: public Figure_Spatial
+class pyramid_tetragonal: public Figure_Spatial // Class name starting from big letter and cammelCase
 {
 private:
 	Point_Spatial points[4];
@@ -231,11 +235,11 @@ public:
  ( points[i].getY() -  points[4].getY() ) * ( points[i].getY() - points[4].getY() ) +
  ( points[i].getZ() -  points[4].getZ() ) * ( points[i].getZ() - points[4].getZ() ));
 }
-	std::cout << cir << std::endl;
+	std::cout << cir << std::endl; // see comment up
 }
 
 };
-class pyramid_pentagonal: public Figure_Spatial
+class pyramid_pentagonal: public Figure_Spatial // Class name starting from big letter and cammelCase
 {
 private:
 	Point_Spatial points[5];
@@ -265,11 +269,11 @@ public:
  ( points[i].getY() -  points[5].getY() ) * ( points[i].getY() - points[5].getY() ) +
  ( points[i].getZ() -  points[5].getZ() ) * ( points[i].getZ() - points[5].getZ() ));
 }
-	std::cout << cir << std::endl;
+	std::cout << cir << std::endl;// see comment up
 }
 
 };
-class prism_triangular: public Figure_Spatial
+class prism_triangular: public Figure_Spatial // Class name starting from big letter and cammelCase
 {
 private:
 	Point_Spatial a,b,c,d,e,f;
@@ -284,7 +288,7 @@ public:
 		this->f = _f;
 	}
 };
-class prism_tetragonal: public Figure_Spatial
+class prism_tetragonal: public Figure_Spatial // Class name starting from big letter and cammelCase
 {
 private:
 	Point_Spatial a,b,c,d,e,f,g,h;
@@ -302,7 +306,7 @@ public:
 	}
 
 };
-class prism_pentagonal: public Figure_Spatial
+class prism_pentagonal: public Figure_Spatial // Class name starting from big letter and cammelCase
 {
 private:
 	Point_Spatial a,b,c,d,e,f,g,h,i,j;
@@ -325,14 +329,14 @@ public:
 int main()
 {
 Point_Spatial tab[4];
-tab[0].setX(0);tab[0].setY(0);tab[0].setZ(0);
+tab[0].setX(0);tab[0].setY(0);tab[0].setZ(0);  //this is a shit! one ; per line - in other case you need to break lines. Could initialize in much better way
 tab[1].setX(0);tab[1].setY(5);tab[1].setZ(0);
 tab[2].setX(5);tab[2].setY(0);tab[2].setZ(0);
 tab[3].setX(5);tab[3].setY(0);tab[3].setZ(0);
 tab[4].setX(0);tab[4].setY(5);tab[4].setZ(0);
 tab[5].setX(0);tab[5].setY(0);tab[5].setZ(5);
 
-pyramid_pentagonal testowa = pyramid_pentagonal(tab[0],tab[1],tab[2],tab[3],tab[4],tab[5]);
+pyramid_pentagonal testowa = pyramid_pentagonal(tab[0],tab[1],tab[2],tab[3],tab[4],tab[5]); // polish?
 
 testowa.circumference();
 system("pause");
