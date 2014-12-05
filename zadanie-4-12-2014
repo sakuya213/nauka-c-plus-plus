@@ -10,7 +10,7 @@ private:
 	double x,y;
  
 public:
-	Point(double _x, double _y)
+	Point(double _x, double _y) //as in setX brace should be in the same line 
 	{
 		this->x = _x;
 		this->y = _y;
@@ -19,7 +19,7 @@ public:
 		this->x = 0;
         this->y = 0;
 	}
-	Point(const Point &_p)
+	Point(const Point &_p) //as in brace should be in the same line 
     {
         this->x = _p.x;
         this->y = _p.y;
@@ -37,14 +37,18 @@ public:
 	double getY(){
 		return this->y;
 	}
+	
+		
+	// where is function to get distance of 2 points? something like: 
+	// double getDistance(Point _a) - we talked about this 2 days ago
 };
 
-class pointSpatial: public Point
+class pointSpatial: public Point // first latter of class name should be BIG
 {
 private:
 	double z;
 public:
-	pointSpatial(double _x, double _y, double _z):Point(_x,_y)
+	pointSpatial(double _x, double _y, double _z):Point(_x,_y)//as in brace should be in the same line 
 	{
 		this->z = _z;
 	}
@@ -57,6 +61,9 @@ public:
 	double getZ(){
 		return this->z;
 	}
+		
+	// where is function to get distance of 2 points? something like: 
+	// double getDistance(pointSpatial _a)
 };
 class Figure
 {
@@ -71,7 +78,7 @@ private:
 	double r; // r = radius
 	Point a;
 public:
-	Circle(Point _a, double _r)
+	Circle(Point _a, double _r)//as in brace should be in the same line 
 	{
 		this->r = _r;
 		this->a = _a;
@@ -96,7 +103,7 @@ class Triangle: public Figure
 private:
 	Point points[2];
 public:
-	Triangle(Point _a, Point _b, Point _c)
+	Triangle(Point _a, Point _b, Point _c)/as in brace should be in the same line 
 	{
 		this->points[0] = _a;
 		this->points[1] = _b;
@@ -114,7 +121,7 @@ public:
 	return cir;
 }
 };
-class Tetragon: public Figure // czworokąt dziedziczy po figurze,
+class Tetragon: public Figure // czworokąt dziedziczy po figurze, <- I dont know polish!!!!
 {
 private: 
 		Point points[3];
@@ -165,7 +172,12 @@ public:
 
 class FigureSpatial
 {
-	virtual double circumference(){
+/*
+This is unnecessary - if class is abstract, it can still contain virtural method as i remeber.
+
+second thing - this class should be abstract, and Figure too ;]
+*/
+	virtual double circumference(){ 
 	return 0;
 	}
 };
@@ -175,14 +187,14 @@ class PyramidTriangular: public FigureSpatial
 private:
 	pointSpatial points[3];
 public:
-	PyramidTriangular(pointSpatial _a, pointSpatial _b, pointSpatial _c, pointSpatial _d)
+	PyramidTriangular(pointSpatial _a, pointSpatial _b, pointSpatial _c, pointSpatial _d) // brace should be in the same line
 	{
 		this->points[0] = _a;
 		this->points[1] = _b;
 		this->points[2] = _c;
 		this->points[3] = _d;
 	}
-	virtual double circumference()
+	virtual double circumference() // no need to be still virtual 
 {
 	double cir = 0; // circumference
 	for(int i=0;i<3;i++){ // base of the pyramid
@@ -198,6 +210,8 @@ public:
  ( points[i].getY() -  points[3].getY() ) * ( points[i].getY() - points[3].getY() ) +
  ( points[i].getZ() -  points[3].getZ() ) * ( points[i].getZ() - points[3].getZ() ));
 }
+
+//use function of distance from points
 	return cir;
 }
 };
@@ -206,7 +220,7 @@ class PyramidTetragonal: public FigureSpatial
 private:
 	pointSpatial points[4];
 public:
-	PyramidTetragonal(pointSpatial _a, pointSpatial _b, pointSpatial _c, pointSpatial _d, pointSpatial _e)
+	PyramidTetragonal(pointSpatial _a, pointSpatial _b, pointSpatial _c, pointSpatial _d, pointSpatial _e) // brace should be in the same line
 	{
 		this->points[0] = _a;
 		this->points[1] = _b;
@@ -230,6 +244,7 @@ public:
  ( points[i].getY() -  points[4].getY() ) * ( points[i].getY() - points[4].getY() ) +
  ( points[i].getZ() -  points[4].getZ() ) * ( points[i].getZ() - points[4].getZ() ));
 }
+//use function of distance from points
 	return cir;
 }
 
@@ -257,6 +272,7 @@ public:
  ( points[(i)%5].getY() -  points[(i+1)%5].getY() ) * ( points[(i)%5].getY() - points[(i+1)%5].getY() ) +
  ( points[(i)%5].getZ() -  points[(i+1)%5].getZ() ) * ( points[(i)%5].getZ() - points[(i+1)%5].getZ() )
 ); 
+//use function of distance from points
 	}
 	for(int i=0;i<5;i++){ //the side walls of the pyramid
  cir += sqrt(
@@ -264,6 +280,7 @@ public:
  ( points[i].getY() -  points[5].getY() ) * ( points[i].getY() - points[5].getY() ) +
  ( points[i].getZ() -  points[5].getZ() ) * ( points[i].getZ() - points[5].getZ() ));
 }
+//use function of distance from points
 	return cir;
 }
 
@@ -305,6 +322,7 @@ public:
  ( points[i].getY() -  points[i+3].getY() ) * ( points[i].getY() - points[i+3].getY() ) +
  ( points[i].getZ() -  points[i+3].getZ() ) * ( points[i].getZ() - points[i+3].getZ() ));
 }
+//use function of distance from points
 	return cir;
 }
 };
@@ -400,7 +418,7 @@ int main()
 {
 	double circumference;
 
-Point tab[4];
+Point tab[4]; // see previuos report ;]
 tab[0].setX(0);tab[0].setY(0);
 tab[1].setX(0);tab[1].setY(5);
 tab[2].setX(5);tab[2].setY(0);
