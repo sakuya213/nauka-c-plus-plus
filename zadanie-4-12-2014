@@ -1,0 +1,416 @@
+#include <iostream>
+#include "stdafx.h"
+#include <cmath>
+ 
+//using namespace std;
+ 
+class Point
+{
+private: 
+	double x,y;
+ 
+public:
+	Point(double _x, double _y)
+	{
+		this->x = _x;
+		this->y = _y;
+	}
+	Point(){
+		this->x = 0;
+        this->y = 0;
+	}
+	Point(const Point &_p)
+    {
+        this->x = _p.x;
+        this->y = _p.y;
+    }
+ 
+	void setX(double _x){
+		this->x = _x;
+	}
+	void setY(double _y){
+		this->y = _y;
+	}
+	double getX(){
+		return this->x;
+	}
+	double getY(){
+		return this->y;
+	}
+};
+
+class pointSpatial: public Point
+{
+private:
+	double z;
+public:
+	pointSpatial(double _x, double _y, double _z):Point(_x,_y)
+	{
+		this->z = _z;
+	}
+	pointSpatial():Point(){
+		this->z = 0;
+	}
+	void setZ(double _z){
+		this->z = _z;
+	}
+	double getZ(){
+		return this->z;
+	}
+};
+class Figure
+{
+	virtual double circumference(){
+	return 0;
+	}
+};
+ 
+class Circle: public Figure
+{
+private:
+	double r; // r = radius
+	Point a;
+public:
+	Circle(Point _a, double _r)
+	{
+		this->r = _r;
+		this->a = _a;
+	}
+		void setA(Point _a){
+			this->a = _a;
+		}
+		void setR(double _r){
+			this->r = _r;
+		}
+		Point getA(){
+			return this->a;
+		}
+		double getR(){
+			return this->r;
+		}
+
+
+};
+class Triangle: public Figure
+{
+private:
+	Point points[2];
+public:
+	Triangle(Point _a, Point _b, Point _c)
+	{
+		this->points[0] = _a;
+		this->points[1] = _b;
+		this->points[2] = _c;
+	}
+	virtual double circumference()
+{
+	double cir = 0; // circumference
+	for(int i=0;i<3;i++){ // cir triangle
+	cir += sqrt(
+ ( points[(i)%3].getX() -  points[(i+1)%3].getX() ) * ( points[(i)%3].getX() - points[(i+1)%3].getX() ) + 
+ ( points[(i)%3].getY() -  points[(i+1)%3].getY() ) * ( points[(i)%3].getY() - points[(i+1)%3].getY() )
+); 
+	}
+	return cir;
+}
+};
+class Tetragon: public Figure // czworokąt dziedziczy po figurze,
+{
+private: 
+		Point points[3];
+ 
+	public:
+		Tetragon(Point _a, Point _b, Point _c, Point _d)
+		{
+			this->points[0] = _a;
+			this->points[1] = _b;
+			this->points[2] = _c;
+			this->points[3] = _d;
+		}
+		virtual double circumference()
+{
+	double cir = 0; // circumference
+	for(int i=0;i<4;i++){ // cir triangle
+	cir += sqrt(
+ ( points[(i)%4].getX() -  points[(i+1)%4].getX() ) * ( points[(i)%4].getX() - points[(i+1)%4].getX() ) + 
+ ( points[(i)%4].getY() -  points[(i+1)%4].getY() ) * ( points[(i)%4].getY() - points[(i+1)%4].getY() )
+); 
+	}
+	return cir;
+}
+};
+ 
+class Rectangle: public Tetragon
+{
+public:
+	Rectangle(Point _a, Point _b, Point _c, Point _d):Tetragon(_a,_b,_c,_d){}
+ 
+};
+
+class Square: public Rectangle
+{
+public:
+	Square(Point _a, Point _b, Point _c, Point _d):Rectangle(_a,_b,_c,_d){}
+};
+
+class Pentagon: public Rectangle
+{
+private:
+	Point e;
+public:
+	Pentagon(Point _a, Point _b, Point _c, Point _d, Point _e):Rectangle(_a,_b,_c,_d){
+		this->e = _e;
+	}
+};
+
+class FigureSpatial
+{
+	virtual double circumference(){
+	return 0;
+	}
+};
+
+class PyramidTriangular: public FigureSpatial
+{
+private:
+	pointSpatial points[3];
+public:
+	PyramidTriangular(pointSpatial _a, pointSpatial _b, pointSpatial _c, pointSpatial _d)
+	{
+		this->points[0] = _a;
+		this->points[1] = _b;
+		this->points[2] = _c;
+		this->points[3] = _d;
+	}
+	virtual double circumference()
+{
+	double cir = 0; // circumference
+	for(int i=0;i<3;i++){ // base of the pyramid
+	cir += sqrt(
+ ( points[(i)%3].getX() -  points[(i+1)%3].getX() ) * ( points[(i)%3].getX() - points[(i+1)%3].getX() ) + 
+ ( points[(i)%3].getY() -  points[(i+1)%3].getY() ) * ( points[(i)%3].getY() - points[(i+1)%3].getY() ) +
+ ( points[(i)%3].getZ() -  points[(i+1)%3].getZ() ) * ( points[(i)%3].getZ() - points[(i+1)%3].getZ() )
+); 
+	}
+	for(int i=0;i<3;i++){ //the side walls of the pyramid
+ cir += sqrt(
+ ( points[i].getX() -  points[3].getX() ) * ( points[i].getX() - points[3].getX() ) + 
+ ( points[i].getY() -  points[3].getY() ) * ( points[i].getY() - points[3].getY() ) +
+ ( points[i].getZ() -  points[3].getZ() ) * ( points[i].getZ() - points[3].getZ() ));
+}
+	return cir;
+}
+};
+class PyramidTetragonal: public FigureSpatial
+{
+private:
+	pointSpatial points[4];
+public:
+	PyramidTetragonal(pointSpatial _a, pointSpatial _b, pointSpatial _c, pointSpatial _d, pointSpatial _e)
+	{
+		this->points[0] = _a;
+		this->points[1] = _b;
+		this->points[2] = _c;
+		this->points[3] = _d;
+		this->points[4] = _e;
+	}
+	virtual double circumference()
+{
+	double cir = 0; // circumference
+	for(int i=0;i<4;i++){ // base of the pyramid
+	cir += sqrt(
+ ( points[(i)%4].getX() -  points[(i+1)%4].getX() ) * ( points[(i)%4].getX() - points[(i+1)%4].getX() ) + 
+ ( points[(i)%4].getY() -  points[(i+1)%4].getY() ) * ( points[(i)%4].getY() - points[(i+1)%4].getY() ) +
+ ( points[(i)%4].getZ() -  points[(i+1)%4].getZ() ) * ( points[(i)%4].getZ() - points[(i+1)%4].getZ() )
+); 
+	}
+	for(int i=0;i<4;i++){ //the side walls of the pyramid
+ cir += sqrt(
+ ( points[i].getX() -  points[4].getX() ) * ( points[i].getX() - points[4].getX() ) + 
+ ( points[i].getY() -  points[4].getY() ) * ( points[i].getY() - points[4].getY() ) +
+ ( points[i].getZ() -  points[4].getZ() ) * ( points[i].getZ() - points[4].getZ() ));
+}
+	return cir;
+}
+
+};
+class PyramidPentagonal: public FigureSpatial
+{
+private:
+	pointSpatial points[5];
+public:
+	PyramidPentagonal(pointSpatial _a, pointSpatial _b, pointSpatial _c, pointSpatial _d, pointSpatial _e, pointSpatial _f)
+	{
+		this->points[0] = _a;
+		this->points[1] = _b;
+		this->points[2] = _c;
+		this->points[3] = _d;
+		this->points[4] = _e;
+		this->points[5] = _f;
+	}
+	virtual double circumference()
+{
+	double cir = 0; // circumference
+	for(int i=0;i<5;i++){ // base of the pyramid
+	cir += sqrt(
+ ( points[(i)%5].getX() -  points[(i+1)%5].getX() ) * ( points[(i)%5].getX() - points[(i+1)%5].getX() ) + 
+ ( points[(i)%5].getY() -  points[(i+1)%5].getY() ) * ( points[(i)%5].getY() - points[(i+1)%5].getY() ) +
+ ( points[(i)%5].getZ() -  points[(i+1)%5].getZ() ) * ( points[(i)%5].getZ() - points[(i+1)%5].getZ() )
+); 
+	}
+	for(int i=0;i<5;i++){ //the side walls of the pyramid
+ cir += sqrt(
+ ( points[i].getX() -  points[5].getX() ) * ( points[i].getX() - points[5].getX() ) + 
+ ( points[i].getY() -  points[5].getY() ) * ( points[i].getY() - points[5].getY() ) +
+ ( points[i].getZ() -  points[5].getZ() ) * ( points[i].getZ() - points[5].getZ() ));
+}
+	return cir;
+}
+
+};
+class PrismTriangular: public FigureSpatial
+{
+private:
+	pointSpatial points[5];
+public:
+	PrismTriangular(pointSpatial _a, pointSpatial _b, pointSpatial _c, pointSpatial _d, pointSpatial _e, pointSpatial _f)
+	{
+		this->points[0] = _a;
+		this->points[1] = _b;
+		this->points[2] = _c;
+		this->points[3] = _d;
+		this->points[4] = _e;
+		this->points[5] = _f;
+	}
+	virtual double circumference()
+{
+	double cir = 0; // circumference
+	for(int i=0;i<3;i++){ // base of the prism
+	cir += sqrt(
+ ( points[(i)%3].getX() -  points[(i+1)%3].getX() ) * ( points[(i)%3].getX() - points[(i+1)%3].getX() ) + 
+ ( points[(i)%3].getY() -  points[(i+1)%3].getY() ) * ( points[(i)%3].getY() - points[(i+1)%3].getY() ) +
+ ( points[(i)%3].getZ() -  points[(i+1)%3].getZ() ) * ( points[(i)%3].getZ() - points[(i+1)%3].getZ() )
+); 
+	}
+	for(int i=3;i<6;i++){ // second base of the prism
+	cir += sqrt(
+ ( points[(i)%3+3].getX() -  points[(i+1)%3+3].getX() ) * ( points[(i)%3+3].getX() - points[(i+1)%3+3].getX() ) + 
+ ( points[(i)%3+3].getY() -  points[(i+1)%3+3].getY() ) * ( points[(i)%3+3].getY() - points[(i+1)%3+3].getY() ) +
+ ( points[(i)%3+3].getZ() -  points[(i+1)%3+3].getZ() ) * ( points[(i)%3+3].getZ() - points[(i+1)%3+3].getZ() )
+); 
+	}
+	for(int i=0;i<3;i++){ //the side walls of the prism
+ cir += sqrt(
+ ( points[i].getX() -  points[i+3].getX() ) * ( points[i].getX() - points[i+3].getX() ) + 
+ ( points[i].getY() -  points[i+3].getY() ) * ( points[i].getY() - points[i+3].getY() ) +
+ ( points[i].getZ() -  points[i+3].getZ() ) * ( points[i].getZ() - points[i+3].getZ() ));
+}
+	return cir;
+}
+};
+class PrismTetragonal: public FigureSpatial
+{
+private:
+	pointSpatial points[7];
+public:
+	PrismTetragonal(pointSpatial _a, pointSpatial _b, pointSpatial _c, pointSpatial _d, pointSpatial _e, pointSpatial _f, pointSpatial _g, pointSpatial _h)
+	{
+		this->points[0] = _a;
+		this->points[1] = _b;
+		this->points[2] = _c;
+		this->points[3] = _d;
+		this->points[4] = _e;
+		this->points[5] = _f;
+		this->points[6] = _g;
+		this->points[7] = _h;
+	}
+	virtual double circumference()
+{
+	double cir = 0; // circumference
+	for(int i=0;i<4;i++){ // base of the prism
+	cir += sqrt(
+ ( points[(i)%4].getX() -  points[(i+1)%4].getX() ) * ( points[(i)%4].getX() - points[(i+1)%4].getX() ) + 
+ ( points[(i)%4].getY() -  points[(i+1)%4].getY() ) * ( points[(i)%4].getY() - points[(i+1)%4].getY() ) +
+ ( points[(i)%4].getZ() -  points[(i+1)%4].getZ() ) * ( points[(i)%4].getZ() - points[(i+1)%4].getZ() )
+); 
+	}
+	for(int i=4;i<8;i++){ // second base of the prism
+	cir += sqrt(
+ ( points[(i)%4+4].getX() -  points[(i+1)%4+4].getX() ) * ( points[(i)%4+4].getX() - points[(i+1)%4+4].getX() ) + 
+ ( points[(i)%4+4].getY() -  points[(i+1)%4+4].getY() ) * ( points[(i)%4+4].getY() - points[(i+1)%4+4].getY() ) +
+ ( points[(i)%4+4].getZ() -  points[(i+1)%4+4].getZ() ) * ( points[(i)%4+4].getZ() - points[(i+1)%4+4].getZ() )
+); 
+	}
+	for(int i=0;i<4;i++){ //the side walls of the prism
+ cir += sqrt(
+ ( points[i].getX() -  points[i+4].getX() ) * ( points[i].getX() - points[i+4].getX() ) + 
+ ( points[i].getY() -  points[i+4].getY() ) * ( points[i].getY() - points[i+4].getY() ) +
+ ( points[i].getZ() -  points[i+4].getZ() ) * ( points[i].getZ() - points[i+4].getZ() ));
+}
+
+	return cir;
+	}
+};
+class PrismPentagonal: public FigureSpatial
+{
+private:
+	pointSpatial points[9];
+public:
+	PrismPentagonal(pointSpatial _a, pointSpatial _b, pointSpatial _c, pointSpatial _d, pointSpatial _e, pointSpatial _f, pointSpatial _g, pointSpatial _h, pointSpatial _i, pointSpatial _j)
+	{
+		this->points[0] = _a;
+		this->points[1] = _b;
+		this->points[2] = _c;
+		this->points[3] = _d;
+		this->points[4] = _e;
+		this->points[5] = _f;
+		this->points[6] = _g;
+		this->points[7] = _h;
+		this->points[8] = _i;
+		this->points[9] = _j;
+	}
+	virtual double circumference()
+{
+	double cir = 0; // circumference
+	for(int i=0;i<5;i++){ // base of the prism
+	cir += sqrt(
+ ( points[(i)%5].getX() -  points[(i+1)%5].getX() ) * ( points[(i)%5].getX() - points[(i+1)%5].getX() ) + 
+ ( points[(i)%5].getY() -  points[(i+1)%5].getY() ) * ( points[(i)%5].getY() - points[(i+1)%5].getY() ) +
+ ( points[(i)%5].getZ() -  points[(i+1)%5].getZ() ) * ( points[(i)%5].getZ() - points[(i+1)%5].getZ() )
+); 
+	}
+	for(int i=5;i<10;i++){ // second base of the prism
+	cir += sqrt(
+ ( points[(i)%5+5].getX() -  points[(i+1)%5+5].getX() ) * ( points[(i)%5+5].getX() - points[(i+1)%5+5].getX() ) + 
+ ( points[(i)%5+5].getY() -  points[(i+1)%5+5].getY() ) * ( points[(i)%5+5].getY() - points[(i+1)%5+5].getY() ) +
+ ( points[(i)%5+5].getZ() -  points[(i+1)%5+5].getZ() ) * ( points[(i)%5+5].getZ() - points[(i+1)%5+5].getZ() )
+); 
+	}
+	for(int i=0;i<5;i++){ //the side walls of the prism
+ cir += sqrt(
+ ( points[i].getX() -  points[i+5].getX() ) * ( points[i].getX() - points[i+5].getX() ) + 
+ ( points[i].getY() -  points[i+5].getY() ) * ( points[i].getY() - points[i+5].getY() ) +
+ ( points[i].getZ() -  points[i+5].getZ() ) * ( points[i].getZ() - points[i+5].getZ() ));
+}
+
+	return cir;
+	}
+};
+int main()
+{
+	double circumference;
+
+Point tab[4];
+tab[0].setX(0);tab[0].setY(0);
+tab[1].setX(0);tab[1].setY(5);
+tab[2].setX(5);tab[2].setY(0);
+tab[3].setX(5);tab[2].setY(0);
+
+Tetragon test(tab[0],tab[1],tab[2],tab[3]);
+
+circumference=test.circumference();
+std::cout<<circumference<<std::endl;
+system("pause");
+
+		return 0;
+}
