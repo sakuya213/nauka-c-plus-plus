@@ -3,7 +3,6 @@
 #include <cmath>
  
 //using namespace std;
- 
 class Point
 {
 private: 
@@ -55,12 +54,34 @@ public:
 		return this->z;
 	}
 };
+
+double getDistance(Point _a, Point _b)
+{
+	double Dist = 0; // distance between points
+
+	Dist = sqrt(
+ ( _a.getX() -  _b.getX() ) * ( _a.getX() - _b.getX() ) + 
+ ( _a.getY() -  _b.getY() ) * ( _a.getY() - _b.getY() )
+);
+	return Dist;
+}
+double getDistance(PointSpatial _a, PointSpatial _b)
+{
+	double Dist = 0; // distance between points
+
+	Dist = sqrt(
+ ( _a.getX() -  _b.getX() ) * ( _a.getX() - _b.getX() ) + 
+ ( _a.getY() -  _b.getY() ) * ( _a.getY() - _b.getY() ) +
+ ( _a.getZ() -  _b.getZ() ) * ( _a.getZ() - _b.getZ() )
+);
+	return Dist;
+}
 class Figure
 {
 	virtual double circumference(){
 	return 0;
 	}
-	virtual double getDistance(){
+	virtual double area(){
 	return 0;
 	}
 };
@@ -88,6 +109,14 @@ public:
 			return this->r;
 		}
 
+		double area()
+		{
+			double areaC = 0;
+			areaC = (3.14 * r * r);
+		
+		return areaC;
+		}
+
 
 };
 class Triangle: public Figure
@@ -111,17 +140,19 @@ public:	Triangle(Point _a, Point _b, Point _c){
 	}
 	return cir;
 }
-	double getDistance()
-{
-	double Dist = 0; // distance between points
 
-		Dist += sqrt(
- ( points[0].getX() -  points[0+1].getX() ) * ( points[0].getX() - points[0+1].getX() ) + 
- ( points[0].getY() -  points[0+1].getY() ) * ( points[0].getY() - points[0+1].getY() )
-);
-	return Dist;
+	double area()
+	{
+		double p = 0.5 * this->circumference();
+		double P = sqrt
+			(
+				p * 
+				( p - getDistance(points[0],points[1]))*
+				( p - getDistance(points[1],points[2]))* 
+				( p - getDistance(points[0],points[2]))
+			);
 	
-	
+		return P;
 	}
 };
 class Tetragon: public Figure // inherits quadrilateral figure
@@ -147,16 +178,6 @@ public:
 	}
 	return cir;
 }
-		double getDistance()
-{
-	double Dist = 0; // distance between points
-
-		Dist += sqrt(
- ( points[0].getX() -  points[0+1].getX() ) * ( points[0].getX() - points[0+1].getX() ) + 
- ( points[0].getY() -  points[0+1].getY() ) * ( points[0].getY() - points[0+1].getY() )
-);
-	return Dist;
-}
 };
  
 class Rectangle: public Figure
@@ -181,16 +202,6 @@ public:
 	}
 	return cir;
 }
-	double getDistance()
-{
-	double Dist = 0; // distance between points
-
-	Dist += sqrt(
- ( points[0].getX() -  points[0+1].getX() ) * ( points[0].getX() - points[0+1].getX() ) + 
- ( points[0].getY() -  points[0+1].getY() ) * ( points[0].getY() - points[0+1].getY() )
-);
-	return Dist;
-}
 };
 
 class Square: public Figure
@@ -214,16 +225,6 @@ public:
 ); 
 	}
 	return cir;
-}
-	double getDistance()
-{
-	double Dist = 0; // distance between points
-
-	Dist += sqrt(
- ( points[0].getX() -  points[0+1].getX() ) * ( points[0].getX() - points[0+1].getX() ) + 
- ( points[0].getY() -  points[0+1].getY() ) * ( points[0].getY() - points[0+1].getY() )
-);
-	return Dist;
 }
 };
 
@@ -250,24 +251,11 @@ public:
 	}
 	return cir;
 }
-	double getDistance()
-{
-	double Dist = 0; // distance between points
-
-	Dist += sqrt(
- ( points[0].getX() -  points[0+1].getX() ) * ( points[0].getX() - points[0+1].getX() ) + 
- ( points[0].getY() -  points[0+1].getY() ) * ( points[0].getY() - points[0+1].getY() )
-);
-	return Dist;
-}
 };
 
 class FigureSpatial
 {
 	virtual double circumference(){
-	return 0;
-	}
-	virtual double getDistance(){
 	return 0;
 	}
 };
@@ -301,17 +289,6 @@ public:
 }
 	return cir;
 }
-	double getDistance()
-{
-	double Dist = 0; // distance between points
-
-	Dist += sqrt(
- ( points[0].getX() -  points[0+1].getX() ) * ( points[0].getX() - points[0+1].getX() ) + 
- ( points[0].getY() -  points[0+1].getY() ) * ( points[0].getY() - points[0+1].getY() ) +
- ( points[0].getZ() -  points[0+1].getZ() ) * ( points[0].getZ() - points[0+1].getZ() )
-);
-	return Dist;
-}
 };
 class PyramidTetragonal: public FigureSpatial
 {
@@ -342,17 +319,6 @@ public:
  ( points[i].getZ() -  points[4].getZ() ) * ( points[i].getZ() - points[4].getZ() ));
 }
 	return cir;
-}
-	double getDistance()
-{
-	double Dist = 0; // distance between points
-
-	Dist += sqrt(
- ( points[0].getX() -  points[0+1].getX() ) * ( points[0].getX() - points[0+1].getX() ) + 
- ( points[0].getY() -  points[0+1].getY() ) * ( points[0].getY() - points[0+1].getY() ) +
- ( points[0].getZ() -  points[0+1].getZ() ) * ( points[0].getZ() - points[0+1].getZ() )
-);
-	return Dist;
 }
 
 };
@@ -386,17 +352,6 @@ public:
  ( points[i].getZ() -  points[5].getZ() ) * ( points[i].getZ() - points[5].getZ() ));
 }
 	return cir;
-}
-	double getDistance()
-{
-	double Dist = 0; // distance between points
-
-	Dist += sqrt(
- ( points[0].getX() -  points[0+1].getX() ) * ( points[0].getX() - points[0+1].getX() ) + 
- ( points[0].getY() -  points[0+1].getY() ) * ( points[0].getY() - points[0+1].getY() ) +
- ( points[0].getZ() -  points[0+1].getZ() ) * ( points[0].getZ() - points[0+1].getZ() )
-);
-	return Dist;
 }
 
 };
@@ -437,17 +392,6 @@ public:
  ( points[i].getZ() -  points[i+3].getZ() ) * ( points[i].getZ() - points[i+3].getZ() ));
 }
 	return cir;
-}
-	double getDistance()
-{
-	double Dist = 0; // distance between points
-
-	Dist += sqrt(
- ( points[0].getX() -  points[0+1].getX() ) * ( points[0].getX() - points[0+1].getX() ) + 
- ( points[0].getY() -  points[0+1].getY() ) * ( points[0].getY() - points[0+1].getY() ) +
- ( points[0].getZ() -  points[0+1].getZ() ) * ( points[0].getZ() - points[0+1].getZ() )
-);
-	return Dist;
 }
 };
 class PrismTetragonal: public FigureSpatial
@@ -491,17 +435,6 @@ public:
 
 	return cir;
 	}
-	double getDistance()
-{
-	double Dist = 0; // distance between points
-
-	Dist += sqrt(
- ( points[0].getX() -  points[0+1].getX() ) * ( points[0].getX() - points[0+1].getX() ) + 
- ( points[0].getY() -  points[0+1].getY() ) * ( points[0].getY() - points[0+1].getY() ) +
- ( points[0].getZ() -  points[0+1].getZ() ) * ( points[0].getZ() - points[0+1].getZ() )
-);
-	return Dist;
-}
 };
 class PrismPentagonal: public FigureSpatial
 {
@@ -546,31 +479,19 @@ public:
 
 	return cir;
 	}
-	double getDistance()
-{
-	double Dist = 0; // distance between points
-
-	Dist += sqrt(
- ( points[0].getX() -  points[0+1].getX() ) * ( points[0].getX() - points[0+1].getX() ) + 
- ( points[0].getY() -  points[0+1].getY() ) * ( points[0].getY() - points[0+1].getY() ) +
- ( points[0].getZ() -  points[0+1].getZ() ) * ( points[0].getZ() - points[0+1].getZ() )
-);
-	return Dist;
-}
+	
 };
 int main()
 {
-	double circumference;
-	double getDistance;
+	double r = 2;
+	double area;
 
-PointSpatial tab[4];
-tab[0].setX(5);tab[0].setY(5);tab[0].setZ(0);
-tab[1].setX(0);tab[1].setY(5);tab[1].setZ(0);
+Point _a(0,0);
+Point _b(5,0);
+Point _c(0,5);
+Triangle test(_a,_b,_c);
 
-PyramidTriangular test(tab[0],tab[1],tab[2],tab[3]);
-
-getDistance=test.getDistance();
-std::cout<<getDistance<<std::endl;
+std::cout<<test.area()<<std::endl;
 system("pause");
 
 		return 0;
