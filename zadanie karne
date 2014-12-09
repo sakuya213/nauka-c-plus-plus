@@ -13,11 +13,11 @@ public:
 		this->x = _x;
 		this->y = _y;
 	}
-	Point(){
+	Point(){ // style is broken
 		this->x = 0;
         this->y = 0;
 	}
-	Point(const Point &_p)
+	Point(const Point &_p) // style is broken
     {
         this->x = _p.x;
         this->y = _p.y;
@@ -36,7 +36,12 @@ public:
 		return this->y;
 	}
 };
-class Figure: public Point
+/*
+ 1. figure is not a point but made from points
+ 2. figure should be abstract, because alone is nothing and dont need points
+ 3. for now, this class could be empty - in next task we will need that
+*/
+class Figure: public Point 
 {
 	private: 
 		Point a;
@@ -80,7 +85,9 @@ public:
 
 
 };
-class tetragon: public Figure // czworokąt dziedziczy po figurze,
+
+
+class tetragon: public Figure // czworokąt dziedziczy po figurze, //<- i dont understand POLISH :D
 {
 private:
 	Point c,d;
@@ -98,6 +105,8 @@ public:
 	rectangle(Point _a, Point _b, Point _c, Point _d):tetragon(_a,_b,_c,_d){}
  
 };
+// where is square??
+// where is triangle?
 int main()
 {
 return 0;
