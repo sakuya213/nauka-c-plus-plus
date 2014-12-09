@@ -1,14 +1,24 @@
 #include <iostream>
 
 using namespace std;
+/*
+1. polish
+2. dont use 1 line constructions. Code style. should be
+if(a > b) {
 
+	cout << "Pierwsza liczba jest wieksza"; 
+} else {
+	cout << "Druga liczba jest wieksza";
+}
+
+*/
 int main()
 {
 //jareczek
     int a,b;
 
     cin >> a >> b;
-    if(a > b) cout << "Pierwsza liczba jest wieksza";
+    if(a > b) cout << "Pierwsza liczba jest wieksza"; 
     else      cout << "Druga liczba jest wieksza";
     cout << endl;  
 	system("pause");
