@@ -2,7 +2,10 @@
 
 using namespace std;
 
-
+/*
+1. code style
+2. tabs
+*/
 int main()
 {
     int i,y,j;
