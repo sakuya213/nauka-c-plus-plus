@@ -34,6 +34,17 @@ public:
 	double getY(){
 		return this->y;
 	}
+	double getDistance(Point _a, Point _b)
+{
+	double Dist = 0; // distance between points
+
+	Dist = sqrt(
+ ( _a.getX() -  _b.getX() ) * ( _a.getX() - _b.getX() ) + 
+ ( _a.getY() -  _b.getY() ) * ( _a.getY() - _b.getY() )
+);
+	return Dist;
+}
+
 };
 
 class PointSpatial: public Point
@@ -53,19 +64,7 @@ public:
 	double getZ(){
 		return this->z;
 	}
-};
-
-double getDistance(Point _a, Point _b)
-{
-	double Dist = 0; // distance between points
-
-	Dist = sqrt(
- ( _a.getX() -  _b.getX() ) * ( _a.getX() - _b.getX() ) + 
- ( _a.getY() -  _b.getY() ) * ( _a.getY() - _b.getY() )
-);
-	return Dist;
-}
-double getDistance(PointSpatial _a, PointSpatial _b)
+	double getDistance(PointSpatial _a, PointSpatial _b)
 {
 	double Dist = 0; // distance between points
 
@@ -76,12 +75,13 @@ double getDistance(PointSpatial _a, PointSpatial _b)
 );
 	return Dist;
 }
-class Figure
+};
+class Figure : public Point
 {
-	virtual double circumference(){
+	virtual double getCircumference(){
 	return 0;
 	}
-	virtual double area(){
+	virtual double getArea(){
 	return 0;
 	}
 };
@@ -109,10 +109,10 @@ public:
 			return this->r;
 		}
 
-		double area()
+		double getArea()
 		{
 			double areaC = 0;
-			areaC = (3.14 * r * r);
+			areaC = (3.14 * r * r);  // visual studio is stupid, if i used math.h it still does not work, I think i need to define this
 		
 		return areaC;
 		}
@@ -129,9 +129,9 @@ public:	Triangle(Point _a, Point _b, Point _c){
 		this->points[1] = _b;
 		this->points[2] = _c;
 }
-		double circumference()
+		double getCircumference()
 {
-	double cir = 0; // circumference
+	double cir = 0; // getCircumference
 	for(int i=0;i<3;i++){ // cir triangle
 	cir += sqrt(
  ( points[(i)%3].getX() -  points[(i+1)%3].getX() ) * ( points[(i)%3].getX() - points[(i+1)%3].getX() ) + 
@@ -141,9 +141,9 @@ public:	Triangle(Point _a, Point _b, Point _c){
 	return cir;
 }
 
-	double area()
+	double getArea()
 	{
-		double p = 0.5 * this->circumference();
+		double p = 0.5 * this->getCircumference();
 		double P = sqrt
 			(
 				p * 
@@ -167,9 +167,9 @@ public:
 		this->points[2] = _c;
 		this->points[3] = _d;
 }
-		double circumference()
+		double getCircumference()
 {
-	double cir = 0; // circumference
+	double cir = 0; // getCircumference
 	for(int i=0;i<4;i++){ // cir tetragon
 	cir += sqrt(
  ( points[(i)%4].getX() -  points[(i+1)%4].getX() ) * ( points[(i)%4].getX() - points[(i+1)%4].getX() ) + 
@@ -191,9 +191,9 @@ public:
 		this->points[2] = _c;
 		this->points[3] = _d;
 }
-	double circumference()
+	double getCircumference()
 {
-	double cir = 0; // circumference
+	double cir = 0; // getCircumference
 	for(int i=0;i<4;i++){ // cir Rectangle
 	cir += sqrt(
  ( points[(i)%4].getX() -  points[(i+1)%4].getX() ) * ( points[(i)%4].getX() - points[(i+1)%4].getX() ) + 
@@ -215,9 +215,9 @@ public:
 		this->points[2] = _c;
 		this->points[3] = _d;
 }
-	double circumference()
+	double getCircumference()
 {
-	double cir = 0; // circumference
+	double cir = 0; // getCircumference
 	for(int i=0;i<4;i++){ // cir square
 	cir += sqrt(
  ( points[(i)%4].getX() -  points[(i+1)%4].getX() ) * ( points[(i)%4].getX() - points[(i+1)%4].getX() ) + 
@@ -240,9 +240,9 @@ public:
 		this->points[3] = _d;
 		this->points[4] = _e;
 }
-	double circumference()
+	double getCircumference()
 {
-	double cir = 0; // circumference
+	double cir = 0; // getCircumference
 	for(int i=0;i<5;i++){ // cir Pentagon
 	cir += sqrt(
  ( points[(i)%5].getX() -  points[(i+1)%5].getX() ) * ( points[(i)%5].getX() - points[(i+1)%5].getX() ) + 
@@ -253,9 +253,9 @@ public:
 }
 };
 
-class FigureSpatial
+class FigureSpatial : public PointSpatial
 {
-	virtual double circumference(){
+	virtual double getCircumference(){
 	return 0;
 	}
 };
@@ -271,9 +271,9 @@ public:
 		this->points[2] = _c;
 		this->points[3] = _d;
 }
-	double circumference()
+	double getCircumference()
 {
-	double cir = 0; // circumference
+	double cir = 0; // getCircumference
 	for(int i=0;i<3;i++){ // base of the pyramid
 	cir += sqrt(
  ( points[(i)%3].getX() -  points[(i+1)%3].getX() ) * ( points[(i)%3].getX() - points[(i+1)%3].getX() ) + 
@@ -302,9 +302,9 @@ public:
 		this->points[3] = _d;
 		this->points[4] = _e;
 }
-	double circumference()
+	double getCircumference()
 {
-	double cir = 0; // circumference
+	double cir = 0; // getCircumference
 	for(int i=0;i<4;i++){ // base of the pyramid
 	cir += sqrt(
  ( points[(i)%4].getX() -  points[(i+1)%4].getX() ) * ( points[(i)%4].getX() - points[(i+1)%4].getX() ) + 
@@ -335,9 +335,9 @@ public:
 		this->points[4] = _e;
 		this->points[5] = _f;
 }
-	double circumference()
+	double getCircumference()
 {
-	double cir = 0; // circumference
+	double cir = 0; // getCircumference
 	for(int i=0;i<5;i++){ // base of the pyramid
 	cir += sqrt(
  ( points[(i)%5].getX() -  points[(i+1)%5].getX() ) * ( points[(i)%5].getX() - points[(i+1)%5].getX() ) + 
@@ -368,9 +368,9 @@ public:
 		this->points[4] = _e;
 		this->points[5] = _f;
 }
-	double circumference()
+	double getCircumference()
 {
-	double cir = 0; // circumference
+	double cir = 0; // getCircumference
 	for(int i=0;i<3;i++){ // base of the prism
 	cir += sqrt(
  ( points[(i)%3].getX() -  points[(i+1)%3].getX() ) * ( points[(i)%3].getX() - points[(i+1)%3].getX() ) + 
@@ -409,9 +409,9 @@ public:
 		this->points[6] = _g;
 		this->points[7] = _h;
 }
-	double circumference()
+	double getCircumference()
 {
-	double cir = 0; // circumference
+	double cir = 0; // getCircumference
 	for(int i=0;i<4;i++){ // base of the prism
 	cir += sqrt(
  ( points[(i)%4].getX() -  points[(i+1)%4].getX() ) * ( points[(i)%4].getX() - points[(i+1)%4].getX() ) + 
@@ -453,9 +453,9 @@ public:
 		this->points[8] = _i;
 		this->points[9] = _j;
 }
-	double circumference()
+	double getCircumference()
 {
-	double cir = 0; // circumference
+	double cir = 0; // getCircumference
 	for(int i=0;i<5;i++){ // base of the prism
 	cir += sqrt(
  ( points[(i)%5].getX() -  points[(i+1)%5].getX() ) * ( points[(i)%5].getX() - points[(i+1)%5].getX() ) + 
@@ -490,8 +490,9 @@ Point _a(0,0);
 Point _b(5,0);
 Point _c(0,5);
 Triangle test(_a,_b,_c);
+area=test.getArea();
 
-std::cout<<test.area()<<std::endl;
+std::cout<<test.getArea()<<std::endl;
 system("pause");
 
 		return 0;
