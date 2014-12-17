@@ -34,17 +34,6 @@ public:
 	double getY(){
 		return this->y;
 	}
-	double getDistance(Point _a, Point _b)
-{
-	double Dist = 0; // distance between points
-
-	Dist = sqrt(
- ( _a.getX() -  _b.getX() ) * ( _a.getX() - _b.getX() ) + 
- ( _a.getY() -  _b.getY() ) * ( _a.getY() - _b.getY() )
-);
-	return Dist;
-}
-
 };
 
 class PointSpatial: public Point
@@ -64,24 +53,16 @@ public:
 	double getZ(){
 		return this->z;
 	}
-	double getDistance(PointSpatial _a, PointSpatial _b)
-{
-	double Dist = 0; // distance between points
-
-	Dist = sqrt(
- ( _a.getX() -  _b.getX() ) * ( _a.getX() - _b.getX() ) + 
- ( _a.getY() -  _b.getY() ) * ( _a.getY() - _b.getY() ) +
- ( _a.getZ() -  _b.getZ() ) * ( _a.getZ() - _b.getZ() )
-);
-	return Dist;
-}
 };
-class Figure : public Point
+class Figure
 {
 	virtual double getCircumference(){
 	return 0;
 	}
 	virtual double getArea(){
+	return 0;
+	}
+	virtual double getDistance(){
 	return 0;
 	}
 };
@@ -131,7 +112,7 @@ public:	Triangle(Point _a, Point _b, Point _c){
 }
 		double getCircumference()
 {
-	double cir = 0; // getCircumference
+	double cir = 0;
 	for(int i=0;i<3;i++){ // cir triangle
 	cir += sqrt(
  ( points[(i)%3].getX() -  points[(i+1)%3].getX() ) * ( points[(i)%3].getX() - points[(i+1)%3].getX() ) + 
@@ -140,20 +121,17 @@ public:	Triangle(Point _a, Point _b, Point _c){
 	}
 	return cir;
 }
-
-	double getArea()
-	{
-		double p = 0.5 * this->getCircumference();
-		double P = sqrt
-			(
-				p * 
-				( p - getDistance(points[0],points[1]))*
-				( p - getDistance(points[1],points[2]))* 
-				( p - getDistance(points[0],points[2]))
-			);
-	
-		return P;
+		double getArea()
+{
+	double area = 0;
+	for(int i=0;i<3;i++){ // area triangle
+	area += sqrt(
+ ( points[(i)%3].getX() -  points[(i+1)%3].getX() ) * ( points[(i)%3].getX() - points[(i+1)%3].getX() ) + 
+ ( points[(i)%3].getY() -  points[(i+1)%3].getY() ) * ( points[(i)%3].getY() - points[(i+1)%3].getY() )
+); 
 	}
+	return area/=2;
+}
 };
 class Tetragon: public Figure // inherits quadrilateral figure
 {
@@ -169,8 +147,8 @@ public:
 }
 		double getCircumference()
 {
-	double cir = 0; // getCircumference
-	for(int i=0;i<4;i++){ // cir tetragon
+	double cir = 0; 
+	for(int i=0;i<4;i++){
 	cir += sqrt(
  ( points[(i)%4].getX() -  points[(i+1)%4].getX() ) * ( points[(i)%4].getX() - points[(i+1)%4].getX() ) + 
  ( points[(i)%4].getY() -  points[(i+1)%4].getY() ) * ( points[(i)%4].getY() - points[(i+1)%4].getY() )
@@ -178,23 +156,37 @@ public:
 	}
 	return cir;
 }
-};
- 
-class Rectangle: public Figure
+		double getArea()
 {
-private:
+	double area = 0; 
+	area = sqrt(
+ ( points[0].getX() -  points[1].getX() ) * ( points[0].getX() - points[1].getX() ) + 
+ ( points[0].getY() -  points[1].getY() ) * ( points[0].getY() - points[1].getY() )
+); 
+	double area2 = 0; 
+	area2 = sqrt(
+ ( points[1].getX() -  points[2].getX() ) * ( points[1].getX() - points[2].getX() ) + 
+ ( points[1].getY() -  points[2].getY() ) * ( points[1].getY() - points[2].getY() )
+);
+ return area * area2;
+}
+};
+class Diamond: public Figure
+{
+private: 
 	Point points[3];
+ 
 public:
-	Rectangle(Point _a, Point _b, Point _c, Point _d){
+	Diamond(Point _a, Point _b, Point _c, Point _d){
 		this->points[0] = _a;
 		this->points[1] = _b;
 		this->points[2] = _c;
 		this->points[3] = _d;
 }
-	double getCircumference()
+		double getCircumference()
 {
-	double cir = 0; // getCircumference
-	for(int i=0;i<4;i++){ // cir Rectangle
+	double cir = 0; 
+	for(int i=0;i<4;i++){
 	cir += sqrt(
  ( points[(i)%4].getX() -  points[(i+1)%4].getX() ) * ( points[(i)%4].getX() - points[(i+1)%4].getX() ) + 
  ( points[(i)%4].getY() -  points[(i+1)%4].getY() ) * ( points[(i)%4].getY() - points[(i+1)%4].getY() )
@@ -202,8 +194,20 @@ public:
 	}
 	return cir;
 }
-};
+		double getArea()
+{
+	double area = 0; 
+	area = sqrt(
+ ( points[0].getX() -  points[1].getX() ) * ( points[0].getX() - points[1].getX() ) + 
+ ( points[0].getY() -  points[1].getY() ) * ( points[0].getY() - points[1].getY() )
+); 
 
+	double h = 0;
+	h = points[3].getY() - points[0].getY();
+
+	return area * h;
+		}
+};
 class Square: public Figure
 {
 private:
@@ -217,8 +221,8 @@ public:
 }
 	double getCircumference()
 {
-	double cir = 0; // getCircumference
-	for(int i=0;i<4;i++){ // cir square
+	double cir = 0;
+	for(int i=0;i<4;i++){
 	cir += sqrt(
  ( points[(i)%4].getX() -  points[(i+1)%4].getX() ) * ( points[(i)%4].getX() - points[(i+1)%4].getX() ) + 
  ( points[(i)%4].getY() -  points[(i+1)%4].getY() ) * ( points[(i)%4].getY() - points[(i+1)%4].getY() )
@@ -242,8 +246,8 @@ public:
 }
 	double getCircumference()
 {
-	double cir = 0; // getCircumference
-	for(int i=0;i<5;i++){ // cir Pentagon
+	double cir = 0;
+	for(int i=0;i<5;i++){ 
 	cir += sqrt(
  ( points[(i)%5].getX() -  points[(i+1)%5].getX() ) * ( points[(i)%5].getX() - points[(i+1)%5].getX() ) + 
  ( points[(i)%5].getY() -  points[(i+1)%5].getY() ) * ( points[(i)%5].getY() - points[(i+1)%5].getY() )
@@ -252,7 +256,6 @@ public:
 	return cir;
 }
 };
-
 class FigureSpatial : public PointSpatial
 {
 	virtual double getCircumference(){
@@ -273,7 +276,7 @@ public:
 }
 	double getCircumference()
 {
-	double cir = 0; // getCircumference
+	double cir = 0;
 	for(int i=0;i<3;i++){ // base of the pyramid
 	cir += sqrt(
  ( points[(i)%3].getX() -  points[(i+1)%3].getX() ) * ( points[(i)%3].getX() - points[(i+1)%3].getX() ) + 
@@ -481,16 +484,15 @@ public:
 	}
 	
 };
+
 int main()
 {
-	double r = 2;
-	double area;
 
-Point _a(0,0);
-Point _b(5,0);
-Point _c(0,5);
-Triangle test(_a,_b,_c);
-area=test.getArea();
+Point _a(5,0);
+Point _b(10,0);
+Point _c(15,10);
+Point _d(8,10);
+Diamond test(_a,_b,_c,_d);
 
 std::cout<<test.getArea()<<std::endl;
 system("pause");
